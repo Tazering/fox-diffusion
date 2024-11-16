@@ -1,0 +1,33 @@
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.10.*
+  - conda
+  - pip
+
+  - numpy
+  - sympy
+  - scikit-learn
+  - numba
+  - opt_einsum
+  - h5py
+  - cytoolz
+
+  - pytorch=1.13.1
+  - pytorch-lightning=1.9.0
+  - pytorch-cuda=11.7
+  - cudatoolkit=11.7
+  - cuda-nvcc
+  - torchvision
+  - torchaudio
+
+  - tensorboard
+  - tensorboardx
+
+  - jupyterlab
+  - seaborn
+  - rich

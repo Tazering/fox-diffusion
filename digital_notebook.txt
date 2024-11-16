@@ -1,0 +1,64 @@
+Digital Notebook
+
+09/01/2024
+Introduction to Project Topic
+	- read through docx file
+	- learned about diffusion models via powerpoint
+
+
+Meeting 09/10/2024
+Two papers in the document
+	- [1] from Berkeley
+	- [7][8] from Irvine
+Run the github code on Rivanna system
+	- data comes from papers
+
+First step is to reproduce results from Irvine paper
+	- focus on diffusion mechanics
+
+Berkeley paper references code from Irvine paper
+
+Data Assimilation
+
+New and Promising way to do digital twins
+
+Meeting 09/13/2024
+
+Professor Fox provided us with another paper to look at regarding diffusion models
+
+Zeyu read the papers
+	- not necessarily open source
+	- Irvine team not responsive regarding correct model or not
+
+My job: read the papers and let Zeyu know about it
+	- format it in a paper approach maybe
+	- maybe also try powerpoint
+
+Meeting 09/20/2024
+
+One group does not know what model they used.
+Neurips paper has paper while others do not. 
+Seems like Berkeley paper references Irvine paper.
+
+Generative AI can denoise the data
+
+Won't use true values for training the model in hopes of getting them back to the original model
+
+Will try to describe the data
+
+My task:
+	- read through papers and provide presentations by next or following week
+	- provide presentation/reference guide on diffusion models
+	- focus on understanding diffusion
+
+Meeting 10/11/2024
+We presented on the two papers. Recommends looking at OmniFold.
+
+Tasks:
+	- Paper Review for OmniFold
+	- Better understand Diffusion Models
+
+
+Next Task:
+	- Paper Review [8]
+	- Diffusion Models 

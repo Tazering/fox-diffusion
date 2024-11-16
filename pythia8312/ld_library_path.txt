@@ -1,0 +1,1 @@
+/home/tkj9ep/dev/Research/fox_diffusion/pythia8312/lib:/opt/slurm/current/lib:/share/rci_apps/common/lib64
