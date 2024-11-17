@@ -173,11 +173,15 @@ def train(
     random_key = jax.random.PRNGKey(config.seed)
     random_key, vdm_key, gamma_key = jax.random.split(random_key, 3)
 
-    if checkpoint_file is not None:
+    # checks if there is a checkpoint file available
+    # I am guessing this is mostly to save time
+    if checkpoint_file is not None: # if a checkpoint file does exist
         with open(checkpoint_file, 'rb') as file:
             training_state = pickle.load(file)
 
-    else:
+    else: # create new variational diffusion model
+
+
         vdm_params, vdm_state = variation_diffusion_model.init(
             vdm_key, single_device_batch)
         gamma_params = noise_scheduler.init(gamma_key, single_device_batch)
@@ -212,6 +216,7 @@ def train(
     summary_writer = tf.summary.create_file_writer(logdir)
     batch_number = start_batch
 
+    # seems mostly for describing the model
     with summary_writer.as_default():
         if config.num_batches > 0:
             pbar = tqdm(islice(dataloader, config.num_batches),

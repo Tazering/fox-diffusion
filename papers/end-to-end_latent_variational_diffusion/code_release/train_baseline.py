@@ -22,7 +22,7 @@ from cinn_model import create_flow_model
 from cvae_model import create_cvae_model
 from pretrained_vae_model import create_vae_model
 
-from train import create_log_folder, make_optimizer
+from train_lvd import create_log_folder, make_optimizer
 
 
 class TrainingState(NamedTuple):

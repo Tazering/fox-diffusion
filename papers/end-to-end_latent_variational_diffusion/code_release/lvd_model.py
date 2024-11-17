@@ -84,7 +84,9 @@ class Gamma(NamedTuple):
     gamma_prime: Any
     weights: Any
 
-
+"""
+This function below seems to create a new model.
+"""
 def create_model(config: Config):
     @hk.multi_transform_with_state
     def variation_diffusion_model():
