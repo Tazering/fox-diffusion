@@ -1,0 +1,86 @@
+<html><head><title>main425</title>
+<link rel="stylesheet" type="text/css" href="../pythia.css"/>
+<link rel="shortcut icon" href="../pythia32.gif"/></head><body><h2>main425</h2>
+Back to <a href="../ExampleKeywords.html" target="page">index.</a>
+<pre><code class="language-c++">
+// main425.cc is a part of the PYTHIA event generator.
+// Copyright (C) 2024 Torbjorn Sjostrand.
+// PYTHIA is licenced under the GNU GPL v2 or later, see COPYING for details.
+// Please respect the MCnet Guidelines, see GUIDELINES for details.
+
+// Authors:
+//            <a href="mailto:marius.m.utheim@jyu.fi">Marius Utheim</a>
+//            <a href="mailto:torbjorn.sjostrand@hep.lu.se">Torbjorn Sjostrand</a>
+
+// Keywords:
+//            <a href="../ExampleKeywords.html#heavy+ions">Heavy&nbsp;ions</a>
+//            <a href="../ExampleKeywords.html#cross+sections.">Cross&nbsp;sections.</a>
+
+// This example calculates proton-oxygen cross sections at varying energies.
+
+#include &quot;Pythia8/Pythia.h&quot;
+
+using namespace Pythia8;
+
+int main() {
+
+  // Set up momentum grid for fixed-target option.
+  double pMin = 1e2, pMax = 1e11;
+  int nPts = 4;
+  vector&lt;double&gt; pLabs = logSpace(nPts, pMin, pMax);
+  double dr = pow(pMax / pMin, 1. / (nPts - 1));
+
+  // Histograms.
+  Hist sigTot(&quot;Total&quot;, nPts, pMin / sqrt(dr), pMax * sqrt(dr), true);
+  Hist sigInel(&quot;Inelastic&quot;, nPts, pMin / sqrt(dr), pMax * sqrt(dr), true);
+
+  // Iterate over momenta. Initialize for p 16O(xygen).
+  for (double pNow : pLabs) {
+    Pythia pythia;
+    pythia.readString(&quot;Beams:idA = 2212&quot;);
+    pythia.readString(&quot;Beams:idB = 1000080160&quot;);
+
+    // Initialize for equivalent proton-nucleon CM energy.
+    pythia.readString(&quot;Beams:frameType = 1&quot;);
+    double eCMNow = ( Vec4(0., 0., pNow, pNow * sqrt(1 + pow2(0.938 / pNow)))
+                    + Vec4(0., 0., 0., 0.938) ).mCalc();
+    pythia.settings.parm(&quot;Beams:eCM&quot;, eCMNow);
+    // Alternatively use fixed-target frame, but currently this is
+    // numerically unstable at the highest energies.
+    // pythia.readString(&quot;Beams:frameType = 3&quot;);
+    // pythia.settings.parm(&quot;Beams:pzA&quot;, pNow);
+    // pythia.settings.parm(&quot;Beams:pzb&quot;, 0.);
+
+    // Optionally reuse initialization information (if it exists, see main424).
+    //pythia.readString(&quot;HeavyIon:SigFitReuseInit = 2&quot;);
+    //pythia.readString(&quot;HeavyIon:SigFitInitFile = main424.sigfit&quot;);
+
+    // Initialize.
+    if (!pythia.init()) {
+      cout &lt;&lt; &quot;Pythia failed to initialize.&quot; &lt;&lt; endl;
+      return -1;
+    }
+
+    // Generate events to get statistics.
+    for (int iEvent = 0; iEvent &lt; 4000; ++iEvent)
+      pythia.next();
+
+    // Fill histograms.
+    sigTot.fill(pNow, pythia.info.sigmaGen());
+    sigInel.fill(pNow, pythia.info.sigmaGen(101));
+  }
+
+  // Print histograms.
+  cout &lt;&lt; sigTot &lt;&lt; sigInel;
+
+  // Plot histograms.
+  HistPlot plt(&quot;plot425&quot;);
+  plt.frame(&quot;fig425&quot;, &quot;p ${}^{16}$O cross sections&quot;,
+    &quot;$p_{Lab}$ (GeV)&quot;, &quot;$\\sigma$ (mb)&quot;, 6.4, 4.8);
+  plt.add(sigTot, &quot;-&quot;, &quot;Total&quot;);
+  plt.add(sigInel, &quot;--&quot;, &quot;Inelastic&quot;);
+  plt.plot(0.5 * pMin, 2. * pMax, 0., 800., false, true);
+
+  return 0;
+}
+</code></pre></body></html>

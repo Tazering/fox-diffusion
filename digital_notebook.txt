@@ -62,3 +62,17 @@ Tasks:
 Next Task:
 	- Paper Review [8]
 	- Diffusion Models 
+
+Meeting 11/17/2024
+
+Task:
+	- comment/document end-to-end diffusion model and get Irvine code working
+		- take data from Berkeley paper
+	- pythia8 usage
+	- what exactly is unfolding
+
+Meeting 11/24/2024
+
+Task:
+	- Get updated Irvine paper working
+	- Write detailed comments on Irvine 2.0
