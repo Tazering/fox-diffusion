@@ -8,6 +8,15 @@ import orbax.checkpoint
 from flax.training import orbax_utils
 from flax.training.train_state import TrainState
 
+"""
+This python program seems to simply serve as a way to save checkpoints.
+They seem to use the python tree array approach for saving checkpoints
+of their model.
+
+https://orbax.readthedocs.io/en/latest/guides/checkpoint/checkpointing_pytrees.html
+
+- Tyler Kim
+"""
 
 class Checkpointer:
     def __init__(self, config: Config, state: TrainState):

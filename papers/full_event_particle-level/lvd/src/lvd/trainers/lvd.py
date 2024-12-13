@@ -57,6 +57,7 @@ class GenerationOptions(NamedTuple):
     discrete: Callable
     ode: Callable
 
+
 def create_trainer(config: Config):
     model = LVD(config)
     consistency_loss = get_consistency_loss(config)

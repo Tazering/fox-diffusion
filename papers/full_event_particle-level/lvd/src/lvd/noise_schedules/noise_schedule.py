@@ -38,6 +38,8 @@ class NoiseSchedule(nn.Module):
     def SNR(self, t: Array, gamma_min, gamma_max):
         return jnp.exp(0.5 * self(t, gamma_min, gamma_max))
 
+
+    # alpha parameter for the flow parameters
     def alpha_squared(self, t, gamma_min, gamma_max):
         return nn.sigmoid(-self(t, gamma_min, gamma_max))
 
