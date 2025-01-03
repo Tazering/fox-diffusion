@@ -57,6 +57,12 @@ class GenerationOptions(NamedTuple):
     discrete: Callable
     ode: Callable
 
+"""
+Generates the trainer object for the LVD using the config files in the parameters.
+    Parameters:
+        config: Config
+            The configuration file needed to create the LVD model.
+"""
 
 def create_trainer(config: Config):
     model = LVD(config)

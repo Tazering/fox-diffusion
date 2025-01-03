@@ -22,7 +22,7 @@ class DetectorEncoderOutputs(NamedTuple):
 
 
 class DetectorEncoder(nn.Module):
-    OutputType = DetectorEncoderOutputs
+    OutputType = DetectorEncoderOutputs # returns the class above - Tyler Kim
 
     # =============================================================================================
     # Options
@@ -32,11 +32,11 @@ class DetectorEncoder(nn.Module):
     @property
     def embedding_config(self):
         return (
-            self.config.hidden_dim, 
-            self.config.num_linear_layers, 
-            self.config.transformer_expansion,
-            self.config.dropout,
-            self.config.skip_connection_type,
+            self.config.hidden_dim, # int
+            self.config.num_linear_layers, # int 
+            self.config.transformer_expansion, # int
+            self.config.dropout, # float
+            self.config.skip_connection_type, # SkipConnectionType class
         )
     
     @property
