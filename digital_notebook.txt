@@ -76,3 +76,37 @@ Meeting 11/24/2024
 Task:
 	- Get updated Irvine paper working
 	- Write detailed comments on Irvine 2.0
+
+Meeting 12/13/2024
+
+Task:
+	- Get code to run
+	- Document the code
+
+Meeting 12/20/2024	
+
+- no need to use multiplicity predictor
+
+Task:
+	- Understand the Code
+
+Meeting 01/03/2025
+
+	- Jefferson Lab looking for unstable particles
+	- new meson resonances
+	- take data from 2 fast pions to photon / rho
+
+Task:
+	- Find what B, T, and D mean for jet embeddings
+	- understand code structure of diffusion model and understand the structure of the code
+
+Subtasks:
+	- Create sample npz file for testing
+	- Figure out how to use checkpoints
+
+Meeting 01/10/2025
+
+Task:
+	- Create sample npz file for testing
+	- Figure out how to use checkpoints
+	- Paper Review
