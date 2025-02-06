@@ -12,7 +12,7 @@ class LinearBlock(nn.Module):
     skip_connection_type: str = "gru"
 
     def setup(self):
-        self.norm = nn.LayerNorm()
+        self.norm = nn.LayerNorm() # normalization layer
         self.expansion_linear = ExpansionLinear(self.hidden_dim, self.expansion, self.dropout)
         self.skip_connection = create_skip_connection(self.skip_connection_type)(self.hidden_dim)
 

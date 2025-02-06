@@ -19,6 +19,11 @@ from lvd.trainers.trainer import Trainer
 from diffusers.schedulers import FlaxDPMSolverMultistepScheduler
 
 
+import jax
+import flax.linen as nn
+from flax.linen import summary
+
+
 from lvd.losses import (
     multiplicity_loss,
     vector_reconstruction_loss,
@@ -65,7 +70,7 @@ Generates the trainer object for the LVD using the config files in the parameter
 """
 
 def create_trainer(config: Config):
-    model = LVD(config)
+    model = LVD(config) 
     consistency_loss = get_consistency_loss(config)
     
     def initialize(
@@ -82,6 +87,11 @@ def create_trainer(config: Config):
             }, 
             batch
         )
+    
+        # https://flax.readthedocs.io/en/v0.8.3/_modules/flax/linen/summary.html
+        # print("\n\nPrint the Summary\n\n")
+        # print(nn.tabulate(model, jax.random.key(17), compute_flops = True, compute_vjp_flops = True)(batch))
+    
 
         # Separate out LVD and noise schedule parameters.
         lvd_params = variables["params"]

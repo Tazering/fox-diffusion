@@ -3,7 +3,7 @@ from jax.numpy import ndarray as Array
 from flax import linen as nn
 from lvd.layers.linear_block import LinearBlock
 
-
+# Dense[self.hidden_dim] -> Dropout[rate] -> self.num_layers * (LinearBlock) -> Dense
 class Embedding(nn.Module):
     hidden_dim: int
     num_layers: int
@@ -14,20 +14,20 @@ class Embedding(nn.Module):
 
     @nn.compact
     def __call__(self, x: Array, *, training: bool = False) -> Array:
-        y = nn.Dense(self.hidden_dim)(x)
-        y = nn.Dropout(self.dropout, deterministic=not training)(y)
+        y = nn.Dense(self.hidden_dim)(x) # creates a dense layer
+        y = nn.Dropout(self.dropout, deterministic=not training)(y) # creates a dropout layer
 
         for _ in range(self.num_layers):
             y = LinearBlock(
-                self.hidden_dim, 
-                self.expansion, 
-                self.dropout,
-                self.skip_connection_type
+                self.hidden_dim, # int
+                self.expansion, # int
+                self.dropout, # float
+                self.skip_connection_type # SkipConnectionClass
             )(
                 y, 
                 training = training
             )
 
-        y = nn.Dense(self.hidden_dim)(y)
+        y = nn.Dense(self.hidden_dim)(y) # final dense layer
 
         return y

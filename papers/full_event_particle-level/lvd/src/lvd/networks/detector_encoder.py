@@ -42,33 +42,42 @@ class DetectorEncoder(nn.Module):
     @property
     def context_vector_config(self):
         return (
-            self.config.hidden_dim, 
-            self.config.ordered_detector_encoder
+            self.config.hidden_dim, # int
+            self.config.ordered_detector_encoder # boolean
         )
     
     @property
     def transformer_config(self):
         return (
-            2 * self.config.hidden_dim,
-            self.config.transformer_heads,
-            self.config.transformer_expansion,
-            self.config.dropout,
-            self.config.skip_connection_type
+            2 * self.config.hidden_dim, # int
+            self.config.transformer_heads, # int
+            self.config.transformer_expansion, # int
+            self.config.dropout, # float
+            self.config.skip_connection_type # SkipConnectionType class
         )
     
+
+    # getter for number of hidden dimensions
     @property
     def hidden_dim(self):
-        return self.config.hidden_dim
+        return self.config.hidden_dim # int
     
+    # getter for number of transformer layers
     @property
     def num_transformer_layers(self):
-        return self.config.num_detector_encoder_layers
+        return self.config.num_detector_encoder_layers # int
     
     # endregion ===================================================================================
 
     # =============================================================================================
     # Network Blocks
     # region --------------------------------------------------------------------------------------
+    
+    """
+    These sets of functions seems to setup the types of embeddings by customizing the configuration
+    of the neural network. The only difference between the different embeddings
+    """
+    
     @property
     def JetInputEmbedding(self):
         return Embedding(*self.embedding_config, name="jet_input_embedding")
@@ -114,9 +123,15 @@ class DetectorEncoder(nn.Module):
     # =============================================================================================
     # Network Functions
     # region --------------------------------------------------------------------------------------
+
+    # B = jet of particle originating from a bottom quark
+    # T = thrust
+    # D = down quark or detector level?
+    # C = charm quark?
+
     def create_jet_embeddings(
         self, 
-        jet_features: Array,   # [B, T, D]
+        jet_features: Array,   # [B, T, D] 
         jet_mask: Array,       # [B, T],
         event_features: Array, # [B, D],
         *,
@@ -125,6 +140,7 @@ class DetectorEncoder(nn.Module):
         B, C, D = jet_features.shape
 
         # Embedd the detector features into the initial latent space.
+        # Figure 1: Conditional Set for the O_D values?
         jet_embeddings = self.JetInputEmbedding(jet_features, training = training)
         jet_embeddings = masked_fill(jet_embeddings, jet_mask)
 
@@ -199,4 +215,3 @@ class DetectorEncoder(nn.Module):
         jet_embeddings = masked_fill(jet_embeddings, jet_masks)
 
         return DetectorEncoderOutputs(summary_embeddings, jet_embeddings, jet_masks)
-        
