@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import math
 
 # filepath dictionaries
 mcpath_filepath = {
@@ -28,8 +29,10 @@ def main():
 
     first_row_results = results[0, :]
 
-    for idx in range(len(cols)):
-        print(f"{cols[idx]}: {first_row_results[idx]}")
+    requirements_log = check_events(results)
+
+    # for idx in range(len(cols)):
+    #     print(f"{cols[idx]}: {first_row_results[idx]}")
 
     # npz_cols = ["detector_vectors", "detector_event", "detector_mask", "particle_vectors",
     # "particle_event", "particle_mask", "particle_types"]
@@ -145,7 +148,76 @@ def eda(df_np):
 
 
 """
+Test the validity of each event with some margin of error due to experimental variables. These functions will 
+assume a certain order of features. Operations will be done component-wise.
 
+1. Test Conservation of Energy and Momentum
+2. Test Conservation of Mass
 """
+
+def check_events(data, acceptable_error = .05):
+
+    num_events = data.shape[0]
+    requirement_log = {}
+    
+    # loop through each event
+    for event_idx in range(num_events):
+        event = data[event_idx, :]
+
+        q = np.array(event[4:8])
+        p1 = np.array(event[8:12])
+        k1 = np.array(event[12:16])
+        k2 = np.array(event[16:20])
+        p2 = np.array(event[20:24])
+
+        print(f"Event {event_idx}: ======================================\n")
+        satisfies_momentum = check_momentum(q, p1, p2, k1, k2, acceptable_error)
+        satisfies_energy = check_energy(q, p1, p2, k1, k2, acceptable_error)
+        satisfies_mass = check_mass(p2, k1, k2, acceptable_error)
+
+        requirement_log[event_idx] = {"Momentum": satisfies_momentum, "Energy": satisfies_energy, "Mass": satisfies_mass}
+
+        print(f"Satisfies Conservation of Momentum: {satisfies_momentum}")
+        print(f"Satisfies Conservation of Energy: {satisfies_energy}")
+        print(f"Satisfies Conservation of Mass: {satisfies_mass}")
+        print(f"===============================================\n")
+
+    return requirement_log
+
+# double checks the conservation of momentum requirement
+def check_momentum(q, p1, p2, k1, k2, acceptable_error):
+    # initial momentum
+    total_initial_momentum = q + p1
+
+    # final momentum
+    total_final_momentum = p2 + k1 + k2
+
+    print(f"Initial Momentum: {total_initial_momentum}\nFinal Momentum: {total_final_momentum}\n")
+
+    return abs(total_final_momentum - total_initial_momentum) <= acceptable_error 
+
+# double checks the conservation of energy
+# assumes that 0th vector is energy
+def check_energy(q, p1, p2, k1, k2, acceptable_error):
+    # initial energy
+    total_initial_energy = q[0] + p1[0]
+
+    # final energy
+    total_final_energy = p2[0] + k1[0] + k2[0]
+
+    return abs(total_final_energy - total_initial_energy) <= acceptable_error
+
+
+# double check the conservation of mass requirement
+def check_mass(p2, k1, k2, acceptable_error):
+    # calculate the masses
+    p2_mass = p2[0]**2 - (p2[1]**2 + p2[2]**2 + p2[3]**2)
+    k2_mass = k2[0]**2 - (k2[1]**2 + k2[2]**2 + k2[3]**2)
+    k1_mass = k1[0]**2 - (k1[1]**2 + k1[2]**2 + k1[3]**2)
+
+    print(f"Mass of Recoil Proton (p1): {p2_mass}\nMass of Positive Pion (k1): {k1_mass}\nMass of Negative Pion (k2): {k2_mass}\n")
+
+    return abs(np.array([np.sqrt(p2_mass), np.sqrt(k1_mass), np.sqrt(k2_mass)]) - np.array([.9382721, .1395704, .1395704])) <= acceptable_error
+
 
 main()
