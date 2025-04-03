@@ -24,24 +24,35 @@ def main():
 
     results, cols = convert_df_to_np(filepath)
     print(cols)
+    print(results[0, :])
 
-    npz_cols = ["detector_vectors", "detector_event", "detector_mask", "particle_vectors",
-    "particle_event", "particle_mask", "particle_types"]
+    first_row_results = results[0, :]
 
-    # Particle Level 
-    particle_vectors, particle_event, particle_mask, particle_types = particle_level_arrays(num_data = results)    
+    for idx in range(len(cols)):
+        print(f"{cols[idx]}: {first_row_results[idx]}")
+
+    # npz_cols = ["detector_vectors", "detector_event", "detector_mask", "particle_vectors",
+    # "particle_event", "particle_mask", "particle_types"]
+
+    # # Particle Level 
+    # particle_vectors, particle_event, particle_mask, particle_types = particle_level_arrays(num_data = results)    
     
-    # Detector Level
-    detector_vectors, detector_event, detector_mask = detector_level_arrays(particle_vectors, particle_event)
+    # # Detector Level
+    # detector_vectors, detector_event, detector_mask = detector_level_arrays(particle_vectors, particle_event)
 
-    # save into npz file
-    np.savez("./jlab_data.npz", detector_vectors = detector_vectors, detector_event = detector_event,
-    detector_mask = detector_mask, particle_vectors = particle_vectors, particle_event = particle_event,
-    particle_mask = particle_mask, particle_types = particle_types)
+    # # save into npz file
+    # np.savez("./jlab_data.npz", detector_vectors = detector_vectors, detector_event = detector_event,
+    # detector_mask = detector_mask, particle_vectors = particle_vectors, particle_event = particle_event,
+    # particle_mask = particle_mask, particle_types = particle_types)
 
     return None
 
 # simply take the particle vectors and event and pollute
+# make noise very small 
+# don't add noise to last vector
+# E^2 = M^2 + P^2
+# mass of pion  = 
+# mass of proton = 
 def detector_level_arrays(particle_vectors, particle_event, mean = 0, var = 1, S = 10, M = 5):
 
     # add noise
@@ -132,14 +143,9 @@ def eda(df_np):
 
     return eda_dict
 
-def pollute(df_np, mean, sigma):
 
+"""
 
-
-    return None
-
-def generate_npz():
-    
-    return None
+"""
 
 main()
