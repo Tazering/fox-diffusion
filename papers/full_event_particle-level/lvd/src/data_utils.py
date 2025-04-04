@@ -155,7 +155,7 @@ assume a certain order of features. Operations will be done component-wise.
 2. Test Conservation of Mass
 """
 
-def check_events(data, acceptable_error = .05):
+def check_events(data, acceptable_error = .0005):
 
     num_events = data.shape[0]
     requirement_log = {}
