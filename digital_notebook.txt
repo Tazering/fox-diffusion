@@ -76,3 +76,10 @@ Meeting 11/24/2024
 Task:
 	- Get updated Irvine paper working
 	- Write detailed comments on Irvine 2.0
+
+Meeting 02/28/2024
+
+Task:
+	- detector level: 5 MEV noise pollution (error < 5MEV)
+	- particle level: actual data
+	- initial = final
