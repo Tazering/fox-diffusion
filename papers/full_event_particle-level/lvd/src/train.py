@@ -22,6 +22,10 @@ from lvd.trainers.lvd import create_trainer, LVDState
 
 import wandb
 
+import jax
+import flax.linen as nn
+from flax.linen import summary
+
 
 """
 This python script here is where everything starts. When the `train.py` function is called,
@@ -142,7 +146,7 @@ def train(
 
     #   Refer to 3.4.2 and equations (10) and (11) for detailed math equations. 
 
-    #   `gamma_max`: refers to the maximum amount of noise that can be added to the data
+    # `gamma_max`: refers to the maximum amount of noise that can be added to the data
     # `gamma_min`: refers to the minimum amount of noise that can be added to the data
 
     #   - Tyler Kim

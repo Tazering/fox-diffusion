@@ -1,7 +1,7 @@
 # LVD Unfolding
 
 A library for performing Latent Variational Diffusion for unfolding variable length collections of objects used in particle phyiscs unfolding.
-\
+
 ## Installation
 You can install this package to use it outside of the repository after cloning.
 
