@@ -110,3 +110,10 @@ Task:
 	- Create sample npz file for testing
 	- Figure out how to use checkpoints
 	- Paper Review
+
+Meeting 02/28/2024
+
+Task:
+	- detector level: 5 MEV noise pollution (error < 5MEV)
+	- particle level: actual data
+	- initial = final
